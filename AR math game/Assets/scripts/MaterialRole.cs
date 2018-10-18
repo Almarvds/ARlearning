@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MaterialRole : MonoBehaviour {
 
-    int Occupation;
+    public int Occupation;
     Image materialImage;
     public Sprite Woodcutting; 
     public Sprite Painting; 
@@ -13,9 +13,13 @@ public class MaterialRole : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+        materialImage = GetComponent<Image>();
+    }
 	
+    public void OccupationSet(int a)
+    {
+        Occupation = a;
+    }
 	// Update is called once per frame
 	void Update () {
 

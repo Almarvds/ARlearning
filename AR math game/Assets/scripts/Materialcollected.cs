@@ -10,8 +10,8 @@ public class Materialcollected : MonoBehaviour {
     public int Scoring;
     public int MaterialsNeeded;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         btn.onClick.AddListener(ButtonClick);
         MaterialScore.text = Scoring + "/" + MaterialsNeeded;
     }
