@@ -18,7 +18,7 @@ MonoBehaviour:
     cameraDeviceModeSetting: -1
     maxSimultaneousImageTargets: 1
     maxSimultaneousObjectTargets: 1
-    useDelayedLoadingObjectTargets: 0
+    useDelayedLoadingObjectTargets: 1
     cameraDirection: 0
     mirrorVideoBackground: 0
   digitalEyewear:
@@ -44,9 +44,11 @@ MonoBehaviour:
       ContainsMagnet: 0
   databaseLoad:
     dataSetsToLoad:
+    - markers
     - VuforiaMars_Images
     - VuforiaMars_VuMark
     dataSetsToActivate:
+    - markers
     - VuforiaMars_Images
     - VuforiaMars_VuMark
   videoBackground:
