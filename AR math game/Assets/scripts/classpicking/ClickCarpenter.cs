@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class ClickCarpenter : MonoBehaviour {
 
+    public GameObject MainInterface;
     public GameObject materials;
+    public GameObject RolePanel;
     public Button btn;
     MaterialRole reference;
 
@@ -18,7 +20,9 @@ public class ClickCarpenter : MonoBehaviour {
     {
         Debug.Log("Carpenter clicked: current number" + materials.GetComponent<MaterialRole>().Occupation);
         reference = materials.GetComponent<MaterialRole>();
-        reference.OccupationSet(2);
+        reference.OccupationSet(1);
+        RolePanel.SetActive(false);
+        MainInterface.SetActive(true);
     }
 
     // Update is called once per frame

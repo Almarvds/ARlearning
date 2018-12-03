@@ -7,9 +7,13 @@ public class MaterialRole : MonoBehaviour {
 
     public int Occupation;
     Image materialImage;
+    public Image RoleButtonImage;
     public Sprite Woodcutting; 
     public Sprite Painting; 
-    public Sprite Designing; 
+    public Sprite Designing;
+    public Sprite Carpenter;
+    public Sprite Painter;
+    public Sprite Designer;
 
     // Use this for initialization
     void Start () {
@@ -25,11 +29,14 @@ public class MaterialRole : MonoBehaviour {
 
         if (Occupation ==1) {
             materialImage.sprite = Woodcutting;
+            RoleButtonImage.sprite = Carpenter;
         } else if (Occupation == 2)
         {
             materialImage.sprite = Painting;
+            RoleButtonImage.sprite = Painter;
         } else {
             materialImage.sprite = Designing;
+            RoleButtonImage.sprite = Designer;
         }
 	}
 }

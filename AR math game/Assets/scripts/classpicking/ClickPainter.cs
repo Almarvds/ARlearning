@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class ClickPainter : MonoBehaviour
 {
 
+    public GameObject MainInterface;
+    public GameObject RolePanel;
     public GameObject materials;
     public Button btn;
     MaterialRole reference;
@@ -20,7 +22,9 @@ public class ClickPainter : MonoBehaviour
     {
         Debug.Log("Painter clicked: current number" + materials.GetComponent<MaterialRole>().Occupation);
         reference = materials.GetComponent<MaterialRole>();
-        reference.OccupationSet(1);
+        reference.OccupationSet(2);
+        RolePanel.SetActive(false);
+        MainInterface.SetActive(true);
     }
 
     // Update is called once per frame

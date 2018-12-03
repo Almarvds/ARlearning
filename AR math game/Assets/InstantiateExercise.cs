@@ -12,6 +12,7 @@ public class InstantiateExercise : MonoBehaviour
     public Text exercise;
     public Text RightAnswer;
     public Text WrongAnswer;
+    public Text WrongAnswer2;
     
     // Use this for initialization
     void Start()
@@ -23,10 +24,15 @@ public class InstantiateExercise : MonoBehaviour
     {
         int a = UnityEngine.Random.Range(1, 10);
         int b = UnityEngine.Random.Range(1, 10);
-        String exerciseText = a + " + " + b;
+
+        String exerciseText = "If you have " + a + " pieces of wood and you get " + b + " more, how many pieces of wood would you have in total?";
+  
         exercise.text = exerciseText;   
+
         RightAnswer.text = (a+b).ToString();
         WrongAnswer.text = (a + b + UnityEngine.Random.Range(-5, 5)).ToString();
+        WrongAnswer2.text = (a + b + UnityEngine.Random.Range(-5, 5)).ToString();
+
         Canvas.SetActive(false);
         Question.gameObject.SetActive(true);
 

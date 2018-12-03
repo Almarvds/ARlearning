@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class GoalUpdater : MonoBehaviour {
 
-    int MaterialNeeded=0;
-    int Materialgot=0;
+    public int MaterialNeeded = 0;
+    public int Materialgot = 0;
     public GameObject goalScript;
     public GameObject MaterialRole;
     MaterialRole Role;
@@ -17,7 +17,7 @@ public class GoalUpdater : MonoBehaviour {
     void Start () {
 		
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 

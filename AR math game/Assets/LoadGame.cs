@@ -14,6 +14,7 @@ public class LoadGame : MonoBehaviour {
 	}
 	
     void LoadMenu(){
+        SceneManager.UnloadScene("main_menu");
         SceneManager.LoadScene("ARscene");
     }
 
