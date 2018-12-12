@@ -14,7 +14,7 @@ public class Player : NetworkBehaviour {
 
     private string role;
 
-    void Update()
+    void Start()
     {
 
 
