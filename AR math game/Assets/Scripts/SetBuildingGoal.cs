@@ -12,6 +12,11 @@ public class SetBuildingGoal : MonoBehaviour
     public Text PanelTitle;
     public Text PanelDescription;
 
+    //exercise button turning green
+    public Sprite button_On;
+    public bool HasGoal;
+    public GameObject ExerciseButton;
+
     //needed materials
     public Text WoodNeeded;
     public Text DesignsNeeded;
@@ -19,6 +24,7 @@ public class SetBuildingGoal : MonoBehaviour
     public Text PaintNeeded;
 
     //private Building variables
+    public GameObject BuildingProgress;
     private String BuildingName;
     Building selectedBuilding = new Building();
 
@@ -56,5 +62,17 @@ public class SetBuildingGoal : MonoBehaviour
         }
     }
 
+    public void SetGoal()
+    {
+
+        HasGoal = true;
+        BuildingProgress.GetComponent<BuildingProgress>().BuildingSelected(selectedBuilding.Wood,selectedBuilding.Paint,selectedBuilding.Designs,selectedBuilding.Bricks);
+        ChangeButton();
+    }
+
+    public void ChangeButton()
+    {
+        ExerciseButton.GetComponent<Image>().sprite = button_On;
+    }
 
 }
