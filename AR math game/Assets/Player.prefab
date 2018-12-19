@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4077301377163864}
   - component: {fileID: 114628367419242686}
-  - component: {fileID: 114990349648844146}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -71,17 +70,5 @@ MonoBehaviour:
     i13: 102
     i14: 6
     i15: 157
-  m_ServerOnly: 1
+  m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114990349648844146
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1559067475015084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fe24cc5aa7cf9f4ca30dd82b29f8f26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nConnected: 0

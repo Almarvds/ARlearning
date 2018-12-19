@@ -64,7 +64,7 @@ public class BuildingProgress : MonoBehaviour {
 
         if (Role.GetComponent<RoleScript>().RoleName.Equals("Painter"))
         {
-            return "paintbuckets";
+            return "buckets of paint";
         }
 
         if (Role.GetComponent<RoleScript>().RoleName.Equals("Bricklayer"))

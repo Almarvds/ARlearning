@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class RoleScript : MonoBehaviour {
+public class RoleScript : NetworkBehaviour {
 
     public string RoleName;
     public Image Characterbutton;
@@ -23,6 +23,12 @@ public class RoleScript : MonoBehaviour {
     public Sprite BricklayerText;
     public Sprite CarpenterText;
 
+    [SyncVar]
+    public bool DesignerConnected;
+    public bool PainterConnected;
+    public bool CarpenterConnected;
+    public bool BricklayerConnected;
+
     public void SetRoleToDesigner()
     {
         Characterbutton.GetComponent<Image>().sprite = Designer;
@@ -31,6 +37,11 @@ public class RoleScript : MonoBehaviour {
         CharacterText2.GetComponent<Image>().sprite = DesignerText;
         Characterbutton3.GetComponent<Image>().sprite = Designer;
         RoleName = "Designer";
+        SendRole(RoleName);
+        if (isServer)
+        {
+            DesignerConnected = true;
+        }
     }
 
     public void SetRoleToPainter()
@@ -41,6 +52,11 @@ public class RoleScript : MonoBehaviour {
         CharacterText2.GetComponent<Image>().sprite = PainterText;
         Characterbutton3.GetComponent<Image>().sprite = Painter;
         RoleName = "Painter";
+        SendRole(RoleName);
+        if (isServer)
+        {
+            PainterConnected = true;
+        }
     }
 
     public void SetRoleToBricklayer()
@@ -51,6 +67,12 @@ public class RoleScript : MonoBehaviour {
         CharacterText2.GetComponent<Image>().sprite = BricklayerText;
         Characterbutton3.GetComponent<Image>().sprite = Bricklayer;
         RoleName = "Bricklayer";
+        SendRole(RoleName);
+
+        if (isServer)
+        {
+            BricklayerConnected = true;
+        }
     }
 
     public void SetRoleToCarpenter()
@@ -61,5 +83,66 @@ public class RoleScript : MonoBehaviour {
         CharacterText2.GetComponent<Image>().sprite = CarpenterText;
         Characterbutton3.GetComponent<Image>().sprite = Carpenter;
         RoleName = "Carpenter";
+        SendRole(RoleName);
+
+        if (isServer)
+        {
+            CarpenterConnected = true;
+        }
     }
+
+    public void SendRole(string RoleName)
+    {
+        if (!isServer)
+        {
+            Debug.Log("Sending Command");
+            CmdSendRole(RoleName);
+        }
+    }
+
+    [Command]
+    void CmdSendRole(string RoleName)
+    {
+            RpcUpdateRoles(RoleName);
+
+        Debug.Log("Updating Roles on ");
+        if (RoleName == "Designer")
+        {
+            DesignerConnected = true;
+        }
+        if (RoleName == "Painter")
+        {
+            PainterConnected = true;
+        }
+        if (RoleName == "Carpenter")
+        {
+            CarpenterConnected = true;
+        }
+        if (RoleName == "Bricklayer")
+        {
+            BricklayerConnected = true;
+        }
+    }
+
+    [ClientRpc]
+    void RpcUpdateRoles(string ClientRole)
+    {
+        Debug.Log("Updating Roles");
+        if(ClientRole == "Designer"){
+            DesignerConnected = true;
+        }
+        if (ClientRole == "Painter")
+        {
+            PainterConnected = true;
+        }
+        if (ClientRole == "Carpenter")
+        {
+            CarpenterConnected = true;
+        }
+        if (ClientRole == "Bricklayer")
+        {
+            BricklayerConnected = true;
+        }
+    }
+
 }
