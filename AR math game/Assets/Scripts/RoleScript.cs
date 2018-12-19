@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class RoleScript : NetworkBehaviour {
+public class RoleScript : MonoBehaviour {
 
     public string RoleName;
     public Image Characterbutton;
@@ -23,25 +23,17 @@ public class RoleScript : NetworkBehaviour {
     public Sprite BricklayerText;
     public Sprite CarpenterText;
 
-    [SyncVar]
-    public bool DesignerConnected;
-    public bool PainterConnected;
-    public bool CarpenterConnected;
-    public bool BricklayerConnected;
-
     public void SetRoleToDesigner()
-    {
+    {       
         Characterbutton.GetComponent<Image>().sprite = Designer;
         CharacterText.GetComponent<Image>().sprite = DesignerText;
         Characterbutton2.GetComponent<Image>().sprite = Designer;
         CharacterText2.GetComponent<Image>().sprite = DesignerText;
         Characterbutton3.GetComponent<Image>().sprite = Designer;
         RoleName = "Designer";
-        SendRole(RoleName);
-        if (isServer)
-        {
-            DesignerConnected = true;
-        }
+        Debug.Log("Selected Designer");
+        Debug.Log("Local gameobject found = " + GameObject.Find("Local")!= null);
+        GameObject.Find("Local").GetComponent<RoleUpdater>().SendRole(RoleName);
     }
 
     public void SetRoleToPainter()
@@ -52,11 +44,9 @@ public class RoleScript : NetworkBehaviour {
         CharacterText2.GetComponent<Image>().sprite = PainterText;
         Characterbutton3.GetComponent<Image>().sprite = Painter;
         RoleName = "Painter";
-        SendRole(RoleName);
-        if (isServer)
-        {
-            PainterConnected = true;
-        }
+        Debug.Log("Selected Painter");
+        Debug.Log("Local gameobject found = " + GameObject.Find("Local") != null);
+        GameObject.Find("Local").GetComponent<RoleUpdater>().SendRole(RoleName);
     }
 
     public void SetRoleToBricklayer()
@@ -67,12 +57,9 @@ public class RoleScript : NetworkBehaviour {
         CharacterText2.GetComponent<Image>().sprite = BricklayerText;
         Characterbutton3.GetComponent<Image>().sprite = Bricklayer;
         RoleName = "Bricklayer";
-        SendRole(RoleName);
-
-        if (isServer)
-        {
-            BricklayerConnected = true;
-        }
+        Debug.Log("Selected Bricklayer");
+        Debug.Log("Local gameobject found = " + GameObject.Find("Local") != null);
+        GameObject.Find("Local").GetComponent<RoleUpdater>().SendRole(RoleName);
     }
 
     public void SetRoleToCarpenter()
@@ -83,66 +70,8 @@ public class RoleScript : NetworkBehaviour {
         CharacterText2.GetComponent<Image>().sprite = CarpenterText;
         Characterbutton3.GetComponent<Image>().sprite = Carpenter;
         RoleName = "Carpenter";
-        SendRole(RoleName);
-
-        if (isServer)
-        {
-            CarpenterConnected = true;
-        }
+        Debug.Log("Selected Carpenter");
+        Debug.Log("Local gameobject found = " + GameObject.Find("Local") != null);
+        GameObject.Find("Local").GetComponent<RoleUpdater>().SendRole(RoleName);
     }
-
-    public void SendRole(string RoleName)
-    {
-        if (!isServer)
-        {
-            Debug.Log("Sending Command");
-            CmdSendRole(RoleName);
-        }
-    }
-
-    [Command]
-    void CmdSendRole(string RoleName)
-    {
-            RpcUpdateRoles(RoleName);
-
-        Debug.Log("Updating Roles on ");
-        if (RoleName == "Designer")
-        {
-            DesignerConnected = true;
-        }
-        if (RoleName == "Painter")
-        {
-            PainterConnected = true;
-        }
-        if (RoleName == "Carpenter")
-        {
-            CarpenterConnected = true;
-        }
-        if (RoleName == "Bricklayer")
-        {
-            BricklayerConnected = true;
-        }
-    }
-
-    [ClientRpc]
-    void RpcUpdateRoles(string ClientRole)
-    {
-        Debug.Log("Updating Roles");
-        if(ClientRole == "Designer"){
-            DesignerConnected = true;
-        }
-        if (ClientRole == "Painter")
-        {
-            PainterConnected = true;
-        }
-        if (ClientRole == "Carpenter")
-        {
-            CarpenterConnected = true;
-        }
-        if (ClientRole == "Bricklayer")
-        {
-            BricklayerConnected = true;
-        }
-    }
-
 }

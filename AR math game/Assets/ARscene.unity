@@ -2156,10 +2156,6 @@ MonoBehaviour:
   PainterText: {fileID: 21300000, guid: 082d9250471ed4144a40f491efa32e31, type: 3}
   BricklayerText: {fileID: 21300000, guid: 08f16752373df824bac1105f26d27f26, type: 3}
   CarpenterText: {fileID: 21300000, guid: 3a145da797f58b34a98c6e47beed1791, type: 3}
-  DesignerConnected: 0
-  PainterConnected: 0
-  CarpenterConnected: 0
-  BricklayerConnected: 0
 --- !u!4 &652437620
 Transform:
   m_ObjectHideFlags: 0
