@@ -2,21 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class BuildingProgress : MonoBehaviour {
+public class BuildingProgress : NetworkBehaviour {
 
     public GameObject Role;
     public Text YourScore;
+    public GameObject characterPanelMaterial;
+    public GameObject BuildingProgressOther;
+
+    //mats
+    public Sprite Wood;
+    public Sprite Bricks;
+    public Sprite Paint;
+    public Sprite Designs;
+
+    [SyncVar]
+    public int NeededBricks;
+    public int NeededWood;
+    public int NeededDesigns;
+    public int NeededPaint;    
     public int NumberBricks;
     public int NumberWood;
     public int NumberDesigns;
     public int NumberPaint;
 
-    public int NeededBricks;
-    public int NeededWood;
-    public int NeededDesigns;
-    public int NeededPaint;
 
     public void Start()
     {
@@ -28,30 +39,39 @@ public class BuildingProgress : MonoBehaviour {
         YourScore.text = MaterialGot + "/" + MaterialNeeded;
     }
 
+    public void UpdateOtherPlayerScore(int PartnerMaterialGot, int PartnerMaterialNeeded)
+    {
+        BuildingProgressOther.GetComponent<Text>().text = PartnerMaterialGot + "/" + PartnerMaterialNeeded;
+    }
+
     public void IncreaseMaterial()
     {
         if (Role.GetComponent<RoleScript>().RoleName.Equals("Designer"))
         {
-            NumberDesigns++;
-            UpdateScore(NumberDesigns, NeededDesigns);
+            CmdIncreaseMaterial(NumberDesigns, NeededDesigns);
+            //NumberDesigns++;
+            //UpdateScore(NumberDesigns, NeededDesigns);
         }
 
         if (Role.GetComponent<RoleScript>().RoleName.Equals("Painter"))
         {
-            NumberPaint++;
-            UpdateScore(NumberPaint, NeededPaint);
+            CmdIncreaseMaterial(NumberPaint, NeededPaint);
+            //NumberPaint++;
+            //UpdateScore(NumberPaint, NeededPaint);
         }
 
         if (Role.GetComponent<RoleScript>().RoleName.Equals("Bricklayer"))
         {
-            NumberWood++;
-            UpdateScore(NumberBricks, NeededBricks);
+            CmdIncreaseMaterial(NumberBricks, NeededBricks);
+            //NumberWood++;
+            //UpdateScore(NumberBricks, NeededBricks);
         }
 
         if (Role.GetComponent<RoleScript>().RoleName.Equals("Carpenter"))
         {
-            NumberWood++;
-            UpdateScore(NumberWood, NeededWood);
+            CmdIncreaseMaterial(NumberWood, NeededWood);
+            //NumberWood++;
+            //UpdateScore(NumberWood, NeededWood);
         }
     }
 
@@ -106,5 +126,59 @@ public class BuildingProgress : MonoBehaviour {
         {
             UpdateScore(NumberWood, NeededWood);
         }
+
+        SetPartnerMaterials();
+
     }
+
+    void SetPartnerMaterials()
+    {
+        if (GameObject.Find("Local").GetComponent<RoleUpdater>().DesignerConnected &&
+            Role.GetComponent<RoleScript>().RoleName != "Designer")
+        {
+            characterPanelMaterial.GetComponent<Image>().sprite = Designs;
+            UpdateOtherPlayerScore(NumberDesigns, NeededDesigns);
+        }
+
+        if (GameObject.Find("Local").GetComponent<RoleUpdater>().CarpenterConnected &&
+            Role.GetComponent<RoleScript>().RoleName != "Carpenter")
+        {
+            characterPanelMaterial.GetComponent<Image>().sprite = Wood;
+            UpdateOtherPlayerScore(NumberWood, NeededWood);
+        }
+
+        if (GameObject.Find("Local").GetComponent<RoleUpdater>().PainterConnected &&
+            Role.GetComponent<RoleScript>().RoleName != "Painter")
+        {
+            characterPanelMaterial.GetComponent<Image>().sprite = Paint;
+            UpdateOtherPlayerScore(NumberPaint, NeededPaint);
+        }
+
+        if (GameObject.Find("Local").GetComponent<RoleUpdater>().BricklayerConnected &&
+            Role.GetComponent<RoleScript>().RoleName != "Bricklayer")
+        {
+            characterPanelMaterial.GetComponent<Image>().sprite = Bricks;
+            UpdateOtherPlayerScore(NumberBricks, NeededBricks);
+
+        }
+
+        BuildingProgressOther.SetActive(true);
+        characterPanelMaterial.SetActive(true);
+    }
+
+    [Command]
+    void CmdIncreaseMaterial(int MaterialGot, int MaterialNeeded)
+    {
+        MaterialGot++;
+        UpdateScore(MaterialGot, MaterialNeeded);
+        RpcUpdateRoles(MaterialGot, MaterialNeeded);
+    }
+
+    [ClientRpc]
+    void RpcUpdateRoles(int MaterialGot, int MaterialNeeded)
+    {
+        MaterialGot++;
+        UpdateScore(MaterialGot, MaterialNeeded);
+    }
+
 }
