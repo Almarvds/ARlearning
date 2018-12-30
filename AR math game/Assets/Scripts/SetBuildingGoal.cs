@@ -24,7 +24,6 @@ public class SetBuildingGoal : MonoBehaviour
     public Text PaintNeeded;
 
     //private Building variables
-    public GameObject BuildingProgress;
     private String BuildingName;
     Building selectedBuilding = new Building();
 
@@ -66,7 +65,7 @@ public class SetBuildingGoal : MonoBehaviour
     {
 
         HasGoal = true;
-        BuildingProgress.GetComponent<BuildingProgress>().BuildingSelected(selectedBuilding.Wood,selectedBuilding.Paint,selectedBuilding.Designs,selectedBuilding.Bricks);
+        GameObject.Find("Local").GetComponent<BuildingProgress>().BuildingSelected(selectedBuilding.Wood,selectedBuilding.Paint,selectedBuilding.Designs,selectedBuilding.Bricks);
         ChangeButton();
     }
 

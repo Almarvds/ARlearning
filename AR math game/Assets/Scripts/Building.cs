@@ -58,7 +58,7 @@ internal class Building
 
         if (Name == "School")
         {
-            description = "A place for leaning and such.";
+            description = "A place for learning and such.";
             Wood = 5;
             Paint = 6;
             Designs = 5;

@@ -19,7 +19,6 @@ public class IndividualExerciseGenerator : MonoBehaviour {
     public Text Answer3Text;
     public Text Answer4Text;
     public GameObject SetBuildingGoal;
-    public GameObject BuildingProgress;
 
     private int correctAnswerNumber;
     public Sprite yesButton;
@@ -51,7 +50,7 @@ public class IndividualExerciseGenerator : MonoBehaviour {
 
     public void GenerateNewExercise()
     {
-        String material = BuildingProgress.GetComponent<BuildingProgress>().ReturnMaterial();
+        String material = GameObject.Find("Local").GetComponent<BuildingProgress>().ReturnMaterial();
         NoAnswerClicked = true;
         int variableA= UnityEngine.Random.Range(0,40);
         int variableB = UnityEngine.Random.Range(0, 40);
@@ -109,7 +108,7 @@ public class IndividualExerciseGenerator : MonoBehaviour {
         NoAnswerClicked = false;
         button.GetComponent<Image>().sprite = yesButton;
         NextButton.SetActive(true);
-        BuildingProgress.GetComponent<BuildingProgress>().IncreaseMaterial();
+        GameObject.Find("Local").GetComponent<BuildingProgress>().IncreaseMaterial();
     }
 
     public void wrongAnswer(GameObject button)

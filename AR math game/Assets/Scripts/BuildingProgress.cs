@@ -7,18 +7,12 @@ using UnityEngine.UI;
 
 public class BuildingProgress : NetworkBehaviour {
 
-    public GameObject Role;
-    public Text YourScore;
-    public GameObject characterPanelMaterial;
-    public GameObject BuildingProgressOther;
-
     //mats
     public Sprite Wood;
     public Sprite Bricks;
     public Sprite Paint;
     public Sprite Designs;
 
-    [SyncVar]
     public int NeededBricks;
     public int NeededWood;
     public int NeededDesigns;
@@ -31,68 +25,69 @@ public class BuildingProgress : NetworkBehaviour {
 
     public void Start()
     {
-        YourScore.text = "";
+        GameObject.Find("ARcamera/UI/CharacterPanel/You/YourScore").GetComponent<Text>().text = "";
     }
 
     public void UpdateScore(int MaterialGot, int MaterialNeeded)
     {
-        YourScore.text = MaterialGot + "/" + MaterialNeeded;
+        GameObject.Find("ARcamera/UI/CharacterPanel/You/YourScore").GetComponent<Text>().text = MaterialGot + "/" + MaterialNeeded;
     }
 
     public void UpdateOtherPlayerScore(int PartnerMaterialGot, int PartnerMaterialNeeded)
     {
-        BuildingProgressOther.GetComponent<Text>().text = PartnerMaterialGot + "/" + PartnerMaterialNeeded;
+        GameObject.Find("ARcamera/UI/CharacterPanel/Teammate/PartnerProgress").GetComponent<Text>().text = PartnerMaterialGot + "/" + PartnerMaterialNeeded;
     }
 
     public void IncreaseMaterial()
     {
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Designer"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Designer"))
         {
-            CmdIncreaseMaterial(NumberDesigns, NeededDesigns);
-            //NumberDesigns++;
+            IncreaseMaterial(NumberDesigns, NeededDesigns);
+            NumberDesigns++;
+            Debug.Log("Number of designs"+ NumberDesigns);
             //UpdateScore(NumberDesigns, NeededDesigns);
         }
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Painter"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Painter"))
         {
-            CmdIncreaseMaterial(NumberPaint, NeededPaint);
-            //NumberPaint++;
+            IncreaseMaterial(NumberPaint, NeededPaint);
+            NumberPaint++;
             //UpdateScore(NumberPaint, NeededPaint);
         }
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Bricklayer"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Bricklayer"))
         {
-            CmdIncreaseMaterial(NumberBricks, NeededBricks);
-            //NumberWood++;
+            IncreaseMaterial(NumberBricks, NeededBricks);
+            NumberWood++;
             //UpdateScore(NumberBricks, NeededBricks);
         }
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Carpenter"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Carpenter"))
         {
-            CmdIncreaseMaterial(NumberWood, NeededWood);
-            //NumberWood++;
+            IncreaseMaterial(NumberWood, NeededWood);
+            NumberWood++;
             //UpdateScore(NumberWood, NeededWood);
         }
     }
 
     public String ReturnMaterial()
     {
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Designer"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Designer"))
         {
             return "drawings";
         }
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Painter"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Painter"))
         {
             return "buckets of paint";
         }
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Bricklayer"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Bricklayer"))
         {
             return "bricks";
         }
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Carpenter"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Carpenter"))
         {
             return "wooden planks";
         }
@@ -107,22 +102,22 @@ public class BuildingProgress : NetworkBehaviour {
         NeededBricks = bricks;
         NeededWood = wood;
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Designer"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Designer"))
         {
             UpdateScore(NumberDesigns, NeededDesigns);
         }
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Painter"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Painter"))
         {
             UpdateScore(NumberPaint, NeededPaint);
         }
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Bricklayer"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Bricklayer"))
         {
             UpdateScore(NumberBricks, NeededBricks);
         }
 
-        if (Role.GetComponent<RoleScript>().RoleName.Equals("Carpenter"))
+        if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Carpenter"))
         {
             UpdateScore(NumberWood, NeededWood);
         }
@@ -134,50 +129,107 @@ public class BuildingProgress : NetworkBehaviour {
     void SetPartnerMaterials()
     {
         if (GameObject.Find("Local").GetComponent<RoleUpdater>().DesignerConnected &&
-            Role.GetComponent<RoleScript>().RoleName != "Designer")
+            GameObject.Find("Role").GetComponent<RoleScript>().RoleName != "Designer")
         {
-            characterPanelMaterial.GetComponent<Image>().sprite = Designs;
+            GameObject.Find("ARcamera/UI/CharacterPanel/Teammate/PartnerRole").GetComponent<Image>().sprite = Designs;
             UpdateOtherPlayerScore(NumberDesigns, NeededDesigns);
         }
 
         if (GameObject.Find("Local").GetComponent<RoleUpdater>().CarpenterConnected &&
-            Role.GetComponent<RoleScript>().RoleName != "Carpenter")
+            GameObject.Find("Role").GetComponent<RoleScript>().RoleName != "Carpenter")
         {
-            characterPanelMaterial.GetComponent<Image>().sprite = Wood;
+            GameObject.Find("ARcamera/UI/CharacterPanel/Teammate/PartnerRole").GetComponent<Image>().sprite = Wood;
             UpdateOtherPlayerScore(NumberWood, NeededWood);
         }
 
         if (GameObject.Find("Local").GetComponent<RoleUpdater>().PainterConnected &&
-            Role.GetComponent<RoleScript>().RoleName != "Painter")
+            GameObject.Find("Role").GetComponent<RoleScript>().RoleName != "Painter")
         {
-            characterPanelMaterial.GetComponent<Image>().sprite = Paint;
+            GameObject.Find("ARcamera/UI/CharacterPanel/Teammate/PartnerRole").GetComponent<Image>().sprite = Paint;
             UpdateOtherPlayerScore(NumberPaint, NeededPaint);
         }
 
         if (GameObject.Find("Local").GetComponent<RoleUpdater>().BricklayerConnected &&
-            Role.GetComponent<RoleScript>().RoleName != "Bricklayer")
+            GameObject.Find("Role").GetComponent<RoleScript>().RoleName != "Bricklayer")
         {
-            characterPanelMaterial.GetComponent<Image>().sprite = Bricks;
+            GameObject.Find("ARcamera/UI/CharacterPanel/Teammate/PartnerRole").GetComponent<Image>().sprite = Bricks;
             UpdateOtherPlayerScore(NumberBricks, NeededBricks);
 
         }
 
-        BuildingProgressOther.SetActive(true);
-        characterPanelMaterial.SetActive(true);
+        GameObject.Find("ARcamera/UI/CharacterPanel/Teammate/PartnerProgress").SetActive(true);
+        GameObject.Find("ARcamera/UI/CharacterPanel/Teammate/PartnerRole").SetActive(true);
+    }
+
+    
+    void IncreaseMaterial(int MaterialGot, int MaterialNeeded)
+    {
+        if (!isServer)
+        {
+            Debug.Log("not server");
+            CmdIncreaseMaterial(MaterialGot, MaterialNeeded);
+        }
+        else
+        {
+            Debug.Log("server");
+            Debug.Log(MaterialGot + " , " +MaterialNeeded);
+            GameObject.Find("Local").GetComponent<BuildingProgress>().IncreaseMat(MaterialGot, MaterialNeeded);
+            Debug.Log("Local mats increased");
+            RpcUpdateRoles2(MaterialGot,MaterialNeeded);
+        }
     }
 
     [Command]
     void CmdIncreaseMaterial(int MaterialGot, int MaterialNeeded)
     {
+        Debug.Log("Command called");
         MaterialGot++;
-        UpdateScore(MaterialGot, MaterialNeeded);
         RpcUpdateRoles(MaterialGot, MaterialNeeded);
+        GameObject.Find("Local").GetComponent<BuildingProgress>().UpdateOtherPlayerScore(MaterialGot, MaterialNeeded);
     }
 
     [ClientRpc]
     void RpcUpdateRoles(int MaterialGot, int MaterialNeeded)
     {
+        if (!isServer)
+        {
+            GameObject.Find("Local").GetComponent<BuildingProgress>().UpdateScore(MaterialGot, MaterialNeeded);
+            //if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Designer"))
+            //{
+            //    NumberDesigns++;
+            //}
+
+            //if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Painter"))
+            //{
+            //    NumberPaint++;
+            //}
+
+            //if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Bricklayer"))
+            //{
+            //    NumberWood++;
+            //}
+
+            //if (GameObject.Find("Role").GetComponent<RoleScript>().RoleName.Equals("Carpenter"))
+            //{
+            //    NumberWood++;
+            //}
+        }
+    }
+
+    [ClientRpc]
+    void RpcUpdateRoles2(int MaterialGot, int MaterialNeeded)
+    {
+        if (!isServer)
+        {
+            ++MaterialGot;
+            GameObject.Find("Local").GetComponent<BuildingProgress>().UpdateOtherPlayerScore(MaterialGot, MaterialNeeded);
+        }
+    }
+
+    public void IncreaseMat(int MaterialGot, int MaterialNeeded)
+    {
         MaterialGot++;
+        Debug.Log(MaterialGot + " , " + MaterialNeeded);
         UpdateScore(MaterialGot, MaterialNeeded);
     }
 
